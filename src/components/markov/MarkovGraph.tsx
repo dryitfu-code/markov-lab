@@ -19,16 +19,16 @@ interface Particle {
 }
 
 const STATE_COLORS = [
-  "#34d399", // emerald
-  "#a78bfa", // violet
-  "#fbbf24", // amber
+  "#45e0a0", // phosphor mint
+  "#ffb224", // amber
   "#f472b6", // pink
-  "#22d3ee", // cyan
-  "#fb923c", // orange
-  "#a3e635", // lime
-  "#e879f9", // fuchsia
-  "#f87171", // red
-  "#4ade80", // green
+  "#4cc9f0", // sky
+  "#a78bfa", // violet
+  "#7ee081", // green
+  "#ff9e64", // coral
+  "#64e0d8", // teal
+  "#e0708a", // rose
+  "#b8e064", // lime
 ];
 
 export default function MarkovGraph() {
@@ -194,7 +194,7 @@ export default function MarkovGraph() {
       ctx.clearRect(0, 0, w, h);
 
       // subtle grid
-      ctx.strokeStyle = "rgba(148,163,184,0.05)";
+      ctx.strokeStyle = "rgba(255,255,255,0.03)";
       ctx.lineWidth = 1;
       for (let gx = 0; gx < w; gx += 44) {
         ctx.beginPath();
@@ -231,12 +231,12 @@ export default function MarkovGraph() {
             const lx = a.x + Math.cos(ang) * 34;
             const ly = a.y + Math.sin(ang) * 34;
             ctx.arc(lx, ly, loopR, 0, Math.PI * 2);
-            ctx.strokeStyle = color + "66";
+            ctx.strokeStyle = color + "55";
             ctx.lineWidth = 1 + p * 7;
             ctx.stroke();
             if (p > 0.25) {
-              ctx.fillStyle = "rgba(226,232,240,0.75)";
-              ctx.font = "11px monospace";
+              ctx.fillStyle = "rgba(157,181,170,0.8)";
+              ctx.font = "11px var(--font-geist-mono), monospace";
               ctx.textAlign = "center";
               ctx.fillText(p.toFixed(2), lx, ly - loopR - 5);
             }
@@ -250,12 +250,12 @@ export default function MarkovGraph() {
             hovered === i
               ? STATE_COLORS[i % STATE_COLORS.length]
               : current === i && state.running
-                ? "#34d399"
-                : "rgba(148,163,184,0.35)";
+                ? "#45e0a0"
+                : "rgba(157,181,170,0.35)";
           ctx.beginPath();
           ctx.moveTo(a.x, a.y);
           ctx.quadraticCurveTo(cpx, cpy, b.x, b.y);
-          ctx.strokeStyle = isActive ? color : "rgba(148,163,184,0.3)";
+          ctx.strokeStyle = isActive ? color : "rgba(157,181,170,0.22)";
           ctx.globalAlpha = hovered >= 0 && !isActive ? 0.25 : 0.9;
           ctx.lineWidth = 1 + p * 6;
           ctx.stroke();
@@ -282,19 +282,22 @@ export default function MarkovGraph() {
             ay - Math.sin(ang2 + 0.5) * (5 + p * 6)
           );
           ctx.closePath();
-          ctx.fillStyle = isActive ? color : "rgba(148,163,184,0.4)";
+          ctx.fillStyle = isActive ? color : "rgba(157,181,170,0.35)";
           ctx.fill();
 
           // probability label
           if (p >= 0.18 || hovered === i) {
             const lx2 = (1 - 0.5) * (1 - 0.5) * a.x + 2 * 0.5 * 0.5 * cpx + 0.25 * b.x;
             const ly2 = (1 - 0.5) * (1 - 0.5) * a.y + 2 * 0.5 * 0.5 * cpy + 0.25 * b.y;
-            ctx.fillStyle = "rgba(15,23,42,0.85)";
+            ctx.fillStyle = "rgba(9,13,12,0.9)";
             ctx.beginPath();
             ctx.roundRect(lx2 - 17, ly2 - 9, 34, 16, 4);
             ctx.fill();
-            ctx.fillStyle = "rgba(226,232,240,0.9)";
-            ctx.font = "10px monospace";
+            ctx.strokeStyle = "rgba(255,255,255,0.08)";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+            ctx.fillStyle = "rgba(157,181,170,0.95)";
+            ctx.font = "10px var(--font-geist-mono), monospace";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
             ctx.fillText(p.toFixed(2), lx2, ly2 - 1);
@@ -379,7 +382,7 @@ export default function MarkovGraph() {
 
         ctx.beginPath();
         ctx.arc(nd.x, nd.y, r, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(9,12,20,0.95)";
+        ctx.fillStyle = "rgba(11,17,15,0.97)";
         ctx.fill();
         ctx.strokeStyle = color;
         ctx.lineWidth = 2.5;
@@ -390,16 +393,16 @@ export default function MarkovGraph() {
         if (emp > 0.01) {
           ctx.beginPath();
           ctx.arc(nd.x, nd.y, r + 4, -Math.PI / 2, -Math.PI / 2 + emp * Math.PI * 2);
-          ctx.strokeStyle = "#e2e8f0";
+          ctx.strokeStyle = "#e7f2ec";
           ctx.lineWidth = 2;
-          ctx.globalAlpha = 0.7;
+          ctx.globalAlpha = 0.65;
           ctx.stroke();
           ctx.globalAlpha = 1;
         }
 
         // label
-        ctx.fillStyle = "#e2e8f0";
-        ctx.font = "600 12px ui-sans-serif, system-ui";
+        ctx.fillStyle = "#cfe5db";
+        ctx.font = "600 12px var(--font-geist-sans), ui-sans-serif, system-ui";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         const label = states[i].length > 9 ? states[i].slice(0, 8) + "…" : states[i];
@@ -408,18 +411,18 @@ export default function MarkovGraph() {
         // stationary prob below
         if (statDist) {
           ctx.fillStyle = color;
-          ctx.font = "10px monospace";
+          ctx.font = "10px var(--font-geist-mono), monospace";
           ctx.fillText(`π=${pi.toFixed(2)}`, nd.x, nd.y + r + 13);
         }
       }
 
-      /* ---------- draw orb ---------- */
-      const orbGrad = ctx.createRadialGradient(orbX, orbY, 1, orbX, orbY, 22);
+      /* ---------- draw orb (amber walker, 24px glow gradient) ---------- */
+      const orbGrad = ctx.createRadialGradient(orbX, orbY, 1, orbX, orbY, 24);
       orbGrad.addColorStop(0, "#ffffff");
-      orbGrad.addColorStop(0.3, "#fbbf24");
-      orbGrad.addColorStop(1, "rgba(251,191,36,0)");
+      orbGrad.addColorStop(0.3, "#ffb224");
+      orbGrad.addColorStop(1, "rgba(255,178,36,0)");
       ctx.beginPath();
-      ctx.arc(orbX, orbY, 22, 0, Math.PI * 2);
+      ctx.arc(orbX, orbY, 24, 0, Math.PI * 2);
       ctx.fillStyle = orbGrad;
       ctx.fill();
       ctx.beginPath();
@@ -492,7 +495,7 @@ export default function MarkovGraph() {
   return (
     <div
       ref={wrapRef}
-      className="relative h-[420px] w-full overflow-hidden rounded-xl border border-zinc-800 bg-[#070a10] sm:h-[520px]"
+      className="relative h-[420px] w-full overflow-hidden rounded-xl border border-white/[0.07] bg-[#0b110f] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] sm:h-[520px]"
     >
       <canvas
         ref={canvasRef}
@@ -504,7 +507,7 @@ export default function MarkovGraph() {
         onPointerLeave={() => (hoverRef.current = -1)}
         onClick={onClick}
       />
-      <div className="pointer-events-none absolute left-3 top-3 rounded-md bg-zinc-900/80 px-2.5 py-1 text-[10px] text-zinc-400 backdrop-blur">
+      <div className="pointer-events-none absolute left-3 top-3 rounded-md border border-white/[0.08] bg-[rgba(11,17,15,0.85)] px-2.5 py-1 font-mono text-[10px] text-[#526a60] backdrop-blur">
         drag nodes · click a state to teleport the walker
       </div>
     </div>

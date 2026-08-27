@@ -20,6 +20,7 @@ export interface MarkovState {
   // Simulation
   running: boolean;
   speed: number; // steps per second
+  soundOn: boolean; // play a note on each state transition
   startState: number; // where the walk began
   current: number; // current state index
   visits: number[]; // visit counts
@@ -34,11 +35,13 @@ export interface MarkovState {
   removeState: (idx: number) => void;
   renameState: (idx: number, name: string) => void;
   loadFromDb: (c: { id: string; name: string; description: string; category: string; states: string[]; matrix: Matrix }) => void;
+  importChain: (c: { name: string; description: string; states: string[]; matrix: Matrix }) => void;
   setMeta: (name: string, description: string) => void;
 
   // Actions: simulation
   play: () => void;
   pause: () => void;
+  toggleSound: () => void;
   reset: () => void;
   step: (n?: number) => void;
   setSpeed: (s: number) => void;
@@ -69,6 +72,7 @@ export const useMarkov = create<MarkovState>((set, get) => ({
 
   running: false,
   speed: 2,
+  soundOn: false,
   ...freshSim(initial.states),
 
   loadPreset: (id) => {
@@ -148,8 +152,25 @@ export const useMarkov = create<MarkovState>((set, get) => ({
 
   setMeta: (name, description) => set({ name, description }),
 
+  importChain: (c) => {
+    const matrix = normalizeMatrix(c.matrix);
+    set({
+      name: c.name,
+      emoji: "📥",
+      description: c.description,
+      states: [...c.states],
+      matrix,
+      chainId: null,
+      running: false,
+    });
+    get().recompute();
+    get().reset();
+  },
+
   play: () => set({ running: true }),
   pause: () => set({ running: false }),
+
+  toggleSound: () => set((s) => ({ soundOn: !s.soundOn })),
 
   reset: () => {
     const { states } = get();

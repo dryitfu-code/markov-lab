@@ -6,7 +6,7 @@ import { distributionAfter, totalVariation } from "@/lib/markov/engine";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Activity, BarChart3, Sigma, Timer, Flame } from "lucide-react";
+import { Activity, Sigma, Timer, Flame } from "lucide-react";
 import {
   LineChart,
   Line,
@@ -19,16 +19,16 @@ import {
 } from "recharts";
 
 const LINE_COLORS = [
-  "#34d399",
-  "#a78bfa",
-  "#fbbf24",
+  "#45e0a0",
+  "#ffb224",
   "#f472b6",
-  "#22d3ee",
-  "#fb923c",
-  "#a3e635",
-  "#e879f9",
-  "#f87171",
-  "#4ade80",
+  "#4cc9f0",
+  "#a78bfa",
+  "#7ee081",
+  "#ff9e64",
+  "#64e0d8",
+  "#e0708a",
+  "#b8e064",
 ];
 
 export function StatsPanel() {
@@ -45,93 +45,96 @@ export function StatsPanel() {
   }, [matrix, stats.stationary, states]);
 
   return (
-    <Card className="h-full border-zinc-800 bg-zinc-950/60">
-      <CardHeader className="pb-3">
-        <CardTitle className="text-base">Diagnostics</CardTitle>
+    <Card className="h-full gap-0 border-white/[0.07] bg-[#0e1413] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+      <CardHeader className="px-0 pb-3">
+        <CardTitle className="micro">Diagnostics</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-3">
+      <CardContent className="space-y-3.5 px-0">
+        {/* big readouts */}
         <div className="grid grid-cols-2 gap-2">
-          <div className="rounded-lg border border-zinc-800 bg-zinc-900/40 p-2.5">
-            <div className="flex items-center gap-1 text-[10px] text-zinc-500">
+          <div className="well p-3">
+            <div className="micro flex items-center gap-1.5">
               <Sigma className="h-3 w-3" /> Entropy rate
             </div>
-            <div className="font-mono text-lg text-emerald-400">
+            <div className="num mt-1.5 text-2xl leading-none text-[#45e0a0] [text-shadow:0_0_20px_rgba(69,224,160,0.4)]">
               {stats.entropyRate.toFixed(3)}
-              <span className="text-[10px] text-zinc-500"> bits/step</span>
             </div>
+            <div className="micro mt-1 text-[9px] text-[#526a60]">bits / step</div>
           </div>
-          <div className="rounded-lg border border-zinc-800 bg-zinc-900/40 p-2.5">
-            <div className="flex items-center gap-1 text-[10px] text-zinc-500">
-              <Timer className="h-3 w-3" /> Mix time (ε=0.05)
+          <div className="well p-3">
+            <div className="micro flex items-center gap-1.5">
+              <Timer className="h-3 w-3" /> Mix time
             </div>
-            <div className="font-mono text-lg text-violet-400">
-              {mixingSteps === null ? "∞" : `${mixingSteps} steps`}
+            <div className="num mt-1.5 text-2xl leading-none text-[#4cc9f0] [text-shadow:0_0_20px_rgba(76,201,240,0.35)]">
+              {mixingSteps === null ? "∞" : mixingSteps}
             </div>
+            <div className="micro mt-1 text-[9px] text-[#526a60]">ε &lt; 0.05</div>
           </div>
         </div>
 
+        {/* property flags */}
         <div className="flex flex-wrap gap-1.5">
-          <Badge
-            variant="outline"
-            className={
-              stats.isIrreducible
-                ? "border-emerald-700/50 bg-emerald-950/40 text-emerald-400"
-                : "border-amber-700/50 bg-amber-950/40 text-amber-300"
-            }
-          >
-            {stats.isIrreducible ? "irreducible ✓" : "reducible"}
-          </Badge>
-          <Badge
-            variant="outline"
-            className={
-              stats.isAperiodic
-                ? "border-emerald-700/50 bg-emerald-950/40 text-emerald-400"
-                : "border-amber-700/50 bg-amber-950/40 text-amber-300"
-            }
-          >
-            {stats.isAperiodic ? "aperiodic ✓" : "periodic"}
-          </Badge>
-          {stats.stationary ? (
-            <Badge variant="outline" className="border-emerald-700/50 bg-emerald-950/40 text-emerald-400">
-              ergodic — converges
-            </Badge>
-          ) : (
-            <Badge variant="outline" className="border-red-800/50 bg-red-950/40 text-red-400">
-              no stationary π
-            </Badge>
-          )}
+          {[
+            {
+              ok: stats.isIrreducible,
+              label: stats.isIrreducible ? "irreducible" : "reducible",
+            },
+            { ok: stats.isAperiodic, label: stats.isAperiodic ? "aperiodic" : "periodic" },
+            {
+              ok: !!stats.stationary,
+              label: stats.stationary ? "ergodic → converges" : "no stationary π",
+            },
+          ].map((f, i) => (
+            <span
+              key={i}
+              className={`inline-flex items-center gap-1.5 rounded-md border px-2 py-1 font-mono text-[10px] uppercase tracking-[0.1em] ${
+                f.ok
+                  ? "border-[#45e0a0]/30 bg-[rgba(69,224,160,0.07)] text-[#45e0a0]"
+                  : "border-[#ffb224]/30 bg-[rgba(255,178,36,0.07)] text-[#ffb224]"
+              }`}
+            >
+              <span aria-hidden="true">{f.ok ? "✓" : "!"}</span> {f.label}
+            </span>
+          ))}
         </div>
 
-        <Separator className="bg-zinc-800" />
+        <Separator className="bg-white/[0.06]" />
 
+        {/* π vs empirical */}
         <div>
-          <div className="mb-2 flex items-center gap-1 text-[11px] font-medium text-zinc-400">
-            <BarChart3 className="h-3 w-3" /> Stationary vs empirical ({totalSteps} steps)
+          <div className="micro mb-2.5">
+            π theory vs observed · <span className="num text-[#9db5aa]">{totalSteps}</span> steps
           </div>
-          <div className="space-y-1.5">
+          <div className="space-y-2">
             {states.map((s, i) => {
               const pi = stats.stationary?.[i] ?? 0;
               const emp = empirical[i] ?? 0;
               const maxPi = Math.max(...(stats.stationary ?? [1]), 0.001);
               return (
-                <div key={i} className="group">
-                  <div className="mb-0.5 flex items-center justify-between text-[10px]">
-                    <span className="truncate text-zinc-400">{s}</span>
-                    <span className="font-mono text-zinc-500">
-                      π {pi.toFixed(3)} · x̄ {(emp * 100).toFixed(1)}%
+                <div key={i}>
+                  <div className="mb-1 flex items-center justify-between">
+                    <span className="truncate font-mono text-[11px] text-[#9db5aa]">{s}</span>
+                    <span className="num shrink-0 pl-2 text-[10px] text-[#526a60]">
+                      π {pi.toFixed(3)} · <span className="text-[#e7f2ec]">{(emp * 100).toFixed(1)}%</span>
                     </span>
                   </div>
-                  <div className="relative h-3 overflow-hidden rounded bg-zinc-900">
+                  <div className="relative h-2.5 overflow-hidden rounded-sm border border-white/[0.05] bg-[#0b110f]">
+                    {/* theory ghost */}
                     <div
-                      className="absolute inset-y-0 left-0 rounded opacity-30"
-                      style={{ width: `${(pi / maxPi) * 100}%`, background: LINE_COLORS[i % 10] }}
-                    />
-                    <div
-                      className="absolute inset-y-[3px] left-0 rounded-sm"
+                      className="absolute inset-y-0 left-0"
                       style={{
-                        width: `${(emp / maxPi) * 100}%`,
+                        width: `${(pi / maxPi) * 100}%`,
+                        background: `${LINE_COLORS[i % 10]}26`,
+                        borderRight: `1px solid ${LINE_COLORS[i % 10]}55`,
+                      }}
+                    />
+                    {/* observed solid */}
+                    <div
+                      className="absolute inset-y-[3px] left-0 rounded-[2px] transition-[width] duration-200"
+                      style={{
+                        width: `${Math.min((emp / maxPi) * 100, 100)}%`,
                         background: LINE_COLORS[i % 10],
-                        maxWidth: "100%",
+                        boxShadow: `0 0 8px ${LINE_COLORS[i % 10]}66`,
                       }}
                     />
                   </div>
@@ -139,18 +142,19 @@ export function StatsPanel() {
               );
             })}
           </div>
-          <p className="mt-2 text-[10px] leading-relaxed text-zinc-600">
-            Solid bar = observed frequency so far · faded = theoretical limit. They converge as steps → ∞.
+          <p className="micro mt-2.5 text-[9px] leading-relaxed normal-case tracking-normal text-[#526a60]">
+            Solid = observed frequency · ghost = theoretical limit. They converge as steps → ∞.
           </p>
         </div>
 
         {stats.absorbingStates.length > 0 && (
           <>
-            <Separator className="bg-zinc-800" />
-            <div className="flex items-start gap-1.5 text-[11px] text-amber-300/80">
-              <Flame className="mt-0.5 h-3 w-3 shrink-0" />
+            <Separator className="bg-white/[0.06]" />
+            <div className="flex items-start gap-2 rounded-lg border border-[#ffb224]/25 bg-[rgba(255,178,36,0.06)] p-2.5 font-mono text-[11px] leading-relaxed text-[#ffb224]/90">
+              <Flame className="mt-0.5 h-3.5 w-3.5 shrink-0" />
               <span>
-                Absorbing states: {stats.absorbingStates.map((i) => states[i]).join(", ")} — the walker gets trapped forever.
+                Absorbing: {stats.absorbingStates.map((i) => states[i]).join(", ")} — the walker is
+                trapped forever.
               </span>
             </div>
           </>
@@ -182,37 +186,56 @@ export function ConvergenceChart() {
   }, [matrix, states, startState, stats.stationary]);
 
   return (
-    <Card className="border-zinc-800 bg-zinc-950/60">
-      <CardHeader className="pb-2">
-        <CardTitle className="flex items-center gap-2 text-base">
-          <Activity className="h-4 w-4 text-emerald-400" />
-          Convergence to equilibrium
-          <span className="text-[10px] font-normal text-zinc-500">
+    <Card className="gap-0 border-white/[0.07] bg-[#0e1413] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+      <CardHeader className="px-0 pb-2">
+        <CardTitle className="flex flex-wrap items-center gap-2">
+          <span className="micro flex items-center gap-1.5">
+            <Activity className="h-3 w-3 text-[#45e0a0]" /> Convergence to equilibrium
+          </span>
+          <span className="font-mono text-[10px] normal-case tracking-normal text-[#526a60]">
             distribution after k steps from “{states[startState]}”
           </span>
         </CardTitle>
       </CardHeader>
-      <CardContent className="h-[240px]">
+      <CardContent className="h-[240px] px-0">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 5, right: 10, bottom: 0, left: -22 }}>
-            <CartesianGrid stroke="#27272a" strokeDasharray="3 3" />
+            <CartesianGrid stroke="rgba(255,255,255,0.05)" strokeDasharray="2 6" />
             <XAxis
               dataKey="step"
-              tick={{ fill: "#71717a", fontSize: 10 }}
-              stroke="#3f3f46"
-              label={{ value: "steps", fill: "#52525b", fontSize: 10, position: "insideBottomRight", offset: -2 }}
-            />
-            <YAxis tick={{ fill: "#71717a", fontSize: 10 }} stroke="#3f3f46" domain={[0, 1]} />
-            <Tooltip
-              contentStyle={{
-                background: "#09090b",
-                border: "1px solid #27272a",
-                borderRadius: 8,
-                fontSize: 11,
+              tick={{ fill: "#526a60", fontSize: 10, fontFamily: "var(--font-geist-mono)" }}
+              stroke="rgba(255,255,255,0.12)"
+              label={{
+                value: "steps",
+                fill: "#526a60",
+                fontSize: 10,
+                position: "insideBottomRight",
+                offset: -2,
               }}
+            />
+            <YAxis
+              tick={{ fill: "#526a60", fontSize: 10, fontFamily: "var(--font-geist-mono)" }}
+              stroke="rgba(255,255,255,0.12)"
+              domain={[0, 1]}
+            />
+            <Tooltip
+              cursor={{ stroke: "rgba(255,255,255,0.14)", strokeDasharray: "2 4" }}
+              contentStyle={{
+                background: "#0b110f",
+                border: "1px solid rgba(255,255,255,0.1)",
+                borderRadius: 10,
+                fontSize: 11,
+                fontFamily: "var(--font-geist-mono)",
+                color: "#cfe5db",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+              }}
+              labelStyle={{ color: "#9db5aa" }}
+              itemStyle={{ color: "#cfe5db" }}
               labelFormatter={(l) => `after ${l} steps`}
             />
-            <Legend wrapperStyle={{ fontSize: 10 }} />
+            <Legend
+              wrapperStyle={{ fontSize: 10, fontFamily: "var(--font-geist-mono)", color: "#9db5aa" }}
+            />
             {states.map((s, i) => (
               <Line
                 key={i}
@@ -222,6 +245,7 @@ export function ConvergenceChart() {
                 stroke={LINE_COLORS[i % 10]}
                 strokeWidth={2}
                 dot={false}
+                activeDot={{ r: 4, strokeWidth: 0 }}
               />
             ))}
             {stats.stationary && (
@@ -229,7 +253,7 @@ export function ConvergenceChart() {
                 type="monotone"
                 dataKey="tvd"
                 name="dist. to π"
-                stroke="#fc7f7f"
+                stroke="#ff6b6b"
                 strokeWidth={1.5}
                 strokeDasharray="5 4"
                 dot={false}
