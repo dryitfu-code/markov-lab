@@ -29,8 +29,20 @@ export const metadata: Metadata = {
   description:
     "Build, simulate and dissect Markov chains: force-directed state graphs, live random walks, convergence analytics and a text-generation playground.",
   keywords: ["Markov chains", "probability", "simulation", "stationary distribution", "visualization"],
-  icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+  openGraph: {
+    title: "Markov Lab — Interactive Markov Chain Laboratory",
+    description:
+      "Build, simulate and dissect Markov chains: force-directed state graphs, live random walks, convergence analytics and a text-generation playground.",
+    url: "https://github.com/dryitfu-code/markov-lab",
+    siteName: "Markov Lab",
+    type: "website",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Markov Lab — paper-and-ink Markov chain laboratory" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Markov Lab — Interactive Markov Chain Laboratory",
+    description: "Build, simulate and dissect Markov chains in your browser.",
+    images: ["/og.png"],
   },
 };
 

@@ -4,11 +4,14 @@
 
 > The future is independent of the past, given the present. — the Markov property
 
+![Laboratory](docs/screenshot-lab.png)
+![Text Playground](docs/screenshot-text.png)
+
 ## ✨ Features
 
 ### 🧪 Laboratory
-- **Custom force-directed graph engine** (canvas, zero graph libraries) — glowing state nodes sized by stationary probability, curved probability-weighted edges with arrowheads, live particle flows, self-loops
-- **Live random-walk simulation** — a glowing orb hops between states in real time; drag nodes, click any state to teleport the walker
+- **Custom force-directed graph engine** (canvas, zero graph libraries) — state nodes sized by stationary probability on a white paper bed with a warm dot grid, curved probability-weighted ink edges with arrowheads, live particle flows, self-loops
+- **Live random-walk simulation** — a clay walker orb hops between states in real time; drag nodes, click any state to teleport the walker
 - **Real-time diagnostics** — stationary distribution (power iteration), entropy rate in bits/step, mixing time (ε=0.05), irreducibility / aperiodicity / absorbing-state detection
 - **Convergence analytics** — exact `e₀·Pᵏ` evolution chart with total-variation distance to π, plus empirical frequencies overlaying theory as steps accumulate
 
@@ -41,8 +44,23 @@
 - **Zustand** for chain/simulation state
 - **Recharts** for convergence analytics
 - **Prisma + SQLite** for chain persistence
-- **Tailwind CSS 4** + shadcn/ui, dark lab theme
+- **Tailwind CSS 4** + custom paper-and-ink design tokens (8 hand-rolled ui primitives)
+- **sonner** for toasts, styled to match
 - Custom canvas physics engine (repulsion + springs + centering)
+
+## 🎨 Design system — paper & ink
+
+A flat, editorial identity: warm ivory surfaces, warm ink text, 1px tan hairlines, and a single clay accent. Serif for display & reading (Source Serif 4), sans for UI (Inter), mono for numerals. No glow, no glass.
+
+| Token | Hex | Use |
+|---|---|---|
+| `--background` | `#F0EEE6` | ivory page |
+| `--card` / `--paper` | `#FAF9F5` | paper cards |
+| `--primary` / `--clay` | `#D97757` | the one accent |
+| `--ink` | `#1F1E1D` | primary text |
+| `--border` / `--hairline` | `#DDD9CC` | 1px hairlines |
+
+All tokens live in [`src/app/globals.css`](src/app/globals.css); the clay starburst mark is both the favicon ([`src/app/icon.svg`](src/app/icon.svg)) and the header glyph.
 
 ## 🚀 Run it
 
