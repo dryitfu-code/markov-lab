@@ -1,0 +1,20 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Chain {
+  id          String   @id @default(cuid())
+  name        String
+  description String   @default("")
+  category    String   @default("custom")
+  states      String // JSON array of state names
+  matrix      String // JSON 2D array of transition probabilities
+  isPreset    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
