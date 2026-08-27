@@ -6,16 +6,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-source-serif);
   --font-mono: var(--font-geist-mono);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
   --color-chart-5: var(--chart-5);
   --color-chart-4: var(--chart-4);
   --color-chart-3: var(--chart-3);
@@ -37,13 +30,15 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --color-phosphor: var(--phosphor);
-  --color-phosphor-dim: var(--phosphor-dim);
-  --color-amber-walker: var(--amber-walker);
-  --color-hairline: var(--hairline);
-  --color-hairline-strong: var(--hairline-strong);
+  /* Anthropic-style semantic aliases */
+  --color-clay: var(--clay);
+  --color-clay-dark: var(--clay-dark);
+  --color-ink: var(--ink);
   --color-ink-2: var(--ink-2);
   --color-ink-3: var(--ink-3);
+  --color-paper: var(--paper);
+  --color-hairline: var(--hairline);
+  --color-hairline-strong: var(--hairline-strong);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -51,67 +46,57 @@
 }
 
 /*
- * ── PHOSPHOR DESIGN SYSTEM ─────────────────────────────────────
- * Precision-instrument theme for Markov Lab.
- * Surfaces: deep green-black steps. One signature mint (#45E0A0).
- * Amber (#FFB224) is RESERVED for the walker — the protagonist.
- * Labels: uppercase Geist Mono microtype. Numerals: tabular.
- * ───────────────────────────────────────────────────────────────
+ * ── ANTHROPIC-STYLE DESIGN SYSTEM ─────────────────────
+ * "Paper & ink" identity: warm ivory surfaces, warm ink
+ * text, 1px tan hairlines, one clay accent (#D97757).
+ * Serif for display & reading, sans for UI, mono for
+ * numerals only. Flat surfaces — no glow, no glass.
+ * ───────────────────────────────────────────────────────
  */
 
 :root {
-  --radius: 0.75rem;
+  --radius: 0.5rem;
 
-  /* surfaces */
-  --background: #090d0c;
-  --foreground: #e7f2ec;
-  --card: #0e1413;
-  --card-foreground: #e7f2ec;
-  --popover: #101716;
-  --popover-foreground: #e7f2ec;
+  /* surfaces: ivory page → paper card → white well */
+  --background: #f0eee6;
+  --foreground: #1f1e1d;
+  --card: #faf9f5;
+  --card-foreground: #1f1e1d;
+  --popover: #ffffff;
+  --popover-foreground: #1f1e1d;
 
-  /* signature */
-  --primary: #45e0a0;
-  --primary-foreground: #07130e;
-  --secondary: #141b1a;
-  --secondary-foreground: #cfe5db;
-  --muted: #121917;
-  --muted-foreground: #526a60;
-  --accent: #16211f;
-  --accent-foreground: #d5eae0;
-  --destructive: #ff6b6b;
+  /* signature clay */
+  --primary: #d97757;
+  --primary-foreground: #ffffff;
+  --secondary: #e9e5da;
+  --secondary-foreground: #3d3d3a;
+  --muted: #e9e5da;
+  --muted-foreground: #6b6b64;
+  --accent: #eae6db;
+  --accent-foreground: #1f1e1d;
+  --destructive: #a3402a;
 
-  /* hairlines */
-  --border: rgba(255, 255, 255, 0.07);
-  --input: rgba(255, 255, 255, 0.1);
-  --ring: #45e0a0;
-  --hairline: rgba(255, 255, 255, 0.07);
-  --hairline-strong: rgba(255, 255, 255, 0.14);
+  /* 1px warm hairlines */
+  --border: #ddd9cc;
+  --input: #ddd9cc;
+  --ring: #d97757;
+  --hairline: #ddd9cc;
+  --hairline-strong: #c9c4b4;
 
   /* semantic aliases */
-  --phosphor: #45e0a0;
-  --phosphor-dim: rgba(69, 224, 160, 0.12);
-  --amber-walker: #ffb224;
+  --clay: #d97757;
+  --clay-dark: #bd5d3a;
+  --ink: #1f1e1d;
+  --ink-2: #3d3d3a;
+  --ink-3: #6b6b64;
+  --paper: #faf9f5;
 
-  /* ink steps (secondary text) */
-  --ink-2: #9db5aa;
-  --ink-3: #526a60;
-
-  /* data ramp */
-  --chart-1: #45e0a0;
-  --chart-2: #ffb224;
-  --chart-3: #f472b6;
-  --chart-4: #4cc9f0;
-  --chart-5: #a78bfa;
-
-  --sidebar: #0e1413;
-  --sidebar-foreground: #e7f2ec;
-  --sidebar-primary: #45e0a0;
-  --sidebar-primary-foreground: #07130e;
-  --sidebar-accent: #16211f;
-  --sidebar-accent-foreground: #d5eae0;
-  --sidebar-border: rgba(255, 255, 255, 0.07);
-  --sidebar-ring: #45e0a0;
+  /* muted editorial data ramp (clay-anchored) */
+  --chart-1: #d97757;
+  --chart-2: #7a9271;
+  --chart-3: #667a94;
+  --chart-4: #b08a50;
+  --chart-5: #9a7b8f;
 }
 
 @layer base {
@@ -119,18 +104,14 @@
     @apply border-border outline-ring/50;
   }
   html {
-    color-scheme: dark;
+    color-scheme: light;
   }
   body {
-    @apply bg-background text-foreground antialiased;
-    background-image:
-      radial-gradient(1100px 500px at 75% -10%, rgba(69, 224, 160, 0.05), transparent 60%),
-      radial-gradient(900px 480px at -10% 110%, rgba(76, 201, 240, 0.035), transparent 55%);
-    background-attachment: fixed;
+    @apply bg-background font-sans text-foreground antialiased;
   }
   ::selection {
-    background: #45e0a0;
-    color: #07130e;
+    background: #d97757;
+    color: #ffffff;
   }
   ::-webkit-scrollbar {
     width: 8px;
@@ -140,11 +121,11 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
+    background: #d6d1c2;
     border-radius: 8px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(69, 224, 160, 0.35);
+    background: #c9c4b4;
   }
   input[type="number"] {
     font-variant-numeric: tabular-nums;
@@ -152,45 +133,49 @@
 }
 
 @layer components {
-  /* machined panel: hairline border + inset top highlight (the card recipe) */
+  /* paper card: warm surface + 1px hairline, near-flat */
   .panel {
-    @apply rounded-xl border border-white/[0.07] bg-[#0e1413];
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    @apply rounded-lg border border-hairline bg-card;
+    box-shadow: 0 1px 2px rgba(25, 25, 25, 0.04);
   }
-  /* inset well: readouts, canvas bed, numeric chips */
+  /* white inset well: readouts, canvas bed, numeric chips */
   .well {
-    @apply rounded-lg border border-white/[0.07] bg-[#0b110f];
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    @apply rounded-md border border-hairline bg-white;
   }
-  /* instrument micro-label */
+  /* quiet UI micro-label (sans, sentence case) */
   .micro {
-    @apply font-mono text-[10px] uppercase tracking-[0.16em] text-[#526a60];
+    @apply text-[11px] font-medium tracking-[0.01em] text-ink-3;
+  }
+  /* eyebrow: tiny wide-tracked caps, the Anthropic section label */
+  .eyebrow {
+    @apply text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-3;
   }
   /* tabular data numeral */
   .num {
     @apply font-mono tabular-nums;
   }
-  /* phosphor LED dot */
+  /* clay status dot — soft ring, no neon */
   .led {
-    @apply inline-block h-1.5 w-1.5 rounded-full bg-[#45e0a0];
-    box-shadow: 0 0 8px rgba(69, 224, 160, 0.8);
-    animation: led-pulse 2.2s ease-in-out infinite;
+    @apply inline-block h-1.5 w-1.5 rounded-full bg-clay;
+    box-shadow: 0 0 0 3px rgba(217, 119, 87, 0.14);
+    animation: led-pulse 2.4s ease-in-out infinite;
   }
-  .led-amber {
-    @apply bg-[#ffb224];
-    box-shadow: 0 0 8px rgba(255, 178, 36, 0.8);
+  .led-idle {
+    @apply bg-ink-3;
+    box-shadow: 0 0 0 3px rgba(107, 107, 100, 0.12);
+    animation: none;
   }
 }
 
 @layer utilities {
-  /* interaction polish: 200ms state transitions on all machined buttons */
+  /* interaction polish: 180ms state transitions on all controls */
   [data-slot="button"] {
-    transition-duration: 200ms;
+    transition-duration: 180ms;
   }
-  /* unified mint focus ring with offset (buttons + tab triggers) */
+  /* unified clay focus ring with offset */
   [data-slot="button"]:focus-visible,
   [data-slot="tabs-trigger"]:focus-visible {
-    outline: 2px solid rgba(69, 224, 160, 0.7);
+    outline: 2px solid rgba(217, 119, 87, 0.55);
     outline-offset: 2px;
   }
 }
@@ -201,7 +186,7 @@
     opacity: 1;
   }
   50% {
-    opacity: 0.35;
+    opacity: 0.45;
   }
 }
-/* phosphor v1.2 — polished: unified card recipe, mint-only interactive accent, #526a60 ink floor */
+/* anthropic v1.0 — ivory paper, warm ink, clay accent, hairline construction */

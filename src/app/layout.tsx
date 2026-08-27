@@ -1,16 +1,27 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Source_Serif_4, Geist_Mono } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
-import { Toaster } from "@/components/ui/toaster";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Styrene B stand-in (UI sans)
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
+// Tiempos stand-in (editorial serif for display & reading)
+const sourceSerif = Source_Serif_4({
+  variable: "--font-source-serif",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+// numerals / code only
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -31,10 +42,27 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${inter.variable} ${sourceSerif.variable} ${geistMono.variable} bg-background font-sans text-foreground antialiased`}
       >
         {children}
-        <Toaster />
+        {/* Sonner toaster, styled to the paper-and-ink system: paper surface,
+            ink text, hairline border, clay icons — flat, no glow. */}
+        <Toaster
+          position="bottom-right"
+          gap={8}
+          toastOptions={{
+            style: {
+              background: "#FAF9F5",
+              color: "#1F1E1D",
+              border: "1px solid #DDD9CC",
+              borderRadius: "8px",
+              fontFamily: "var(--font-inter)",
+              fontSize: "13px",
+              lineHeight: "1.45",
+              boxShadow: "0 4px 14px rgba(25, 25, 25, 0.08)",
+            },
+          }}
+        />
       </body>
     </html>
   );

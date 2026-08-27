@@ -103,10 +103,10 @@ export function ShareTools() {
   };
 
   return (
-    <Card className="gap-0 border-white/[0.07] bg-[#0e1413] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+    <Card className="gap-0 p-4">
       <CardHeader className="px-0 pb-3">
-        <CardTitle className="micro flex items-center gap-2">
-          <Link2 className="h-3.5 w-3.5 text-[#45e0a0]" /> Share & export
+        <CardTitle className="eyebrow flex items-center gap-2">
+          <Link2 className="h-3.5 w-3.5 text-clay" /> Share &amp; export
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3 px-0">
@@ -115,7 +115,7 @@ export function ShareTools() {
             size="sm"
             variant="outline"
             onClick={exportJson}
-            className="h-9 gap-1.5 rounded-lg border-white/[0.09] bg-[#141b1a] font-mono text-[10px] uppercase tracking-[0.1em] text-[#9db5aa] duration-200 hover:border-[#45e0a0]/50 hover:bg-[#16211f] hover:text-[#45e0a0]"
+            className="h-9 gap-1.5 rounded-md border-hairline-strong bg-transparent px-3 text-[12.5px] font-medium text-ink-2 hover:bg-accent hover:text-ink"
           >
             <Download className="h-3.5 w-3.5" /> Export JSON
           </Button>
@@ -123,7 +123,7 @@ export function ShareTools() {
             size="sm"
             variant="outline"
             onClick={() => fileRef.current?.click()}
-            className="h-9 gap-1.5 rounded-lg border-white/[0.09] bg-[#141b1a] font-mono text-[10px] uppercase tracking-[0.1em] text-[#9db5aa] duration-200 hover:border-[#45e0a0]/50 hover:bg-[#16211f] hover:text-[#45e0a0]"
+            className="h-9 gap-1.5 rounded-md border-hairline-strong bg-transparent px-3 text-[12.5px] font-medium text-ink-2 hover:bg-accent hover:text-ink"
           >
             <Upload className="h-3.5 w-3.5" /> Import JSON
           </Button>
@@ -131,7 +131,7 @@ export function ShareTools() {
             size="sm"
             variant="outline"
             onClick={copyShareLink}
-            className="h-9 gap-1.5 rounded-lg border-white/[0.09] bg-[#141b1a] font-mono text-[10px] uppercase tracking-[0.1em] text-[#9db5aa] duration-200 hover:border-[#45e0a0]/50 hover:bg-[#16211f] hover:text-[#45e0a0]"
+            className="h-9 gap-1.5 rounded-md border-hairline-strong bg-transparent px-3 text-[12.5px] font-medium text-ink-2 hover:bg-accent hover:text-ink"
           >
             <Link2 className="h-3.5 w-3.5" /> Copy share link
           </Button>
@@ -145,10 +145,10 @@ export function ShareTools() {
             tabIndex={-1}
           />
         </div>
-        <div className="flex items-start gap-2 rounded-lg border border-[#ffb224]/25 bg-[rgba(255,178,36,0.05)] p-2.5 font-mono text-[11px] leading-relaxed text-[#ffb224]/85">
-          <Music4 className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+        <div className="flex items-start gap-2.5 rounded-md border border-hairline bg-[#F0EEE6] p-3 text-[12.5px] leading-relaxed text-ink-2">
+          <Music4 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-clay-dark" />
           <span>
-            Tip: enable the <span className="font-semibold text-[#ffb224]">sound toggle</span> in
+            Tip: enable the <span className="font-medium text-ink">sound toggle</span> in
             the Laboratory and run the walk — every state is a note, and the Melody Walker preset
             plays real solfège.
           </span>

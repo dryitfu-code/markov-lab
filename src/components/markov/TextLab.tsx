@@ -39,11 +39,11 @@ export function TextLab() {
 
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-      <Card className="gap-0 border-white/[0.07] bg-[#0e1413] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+      <Card className="gap-0 p-4">
         <CardHeader className="px-0 pb-3">
-          <CardTitle className="micro flex items-center gap-2">
-            <Train className="h-3.5 w-3.5 text-[#45e0a0]" /> Corpus
-            <span className="num ml-auto rounded border border-white/[0.08] bg-[#0b110f] px-1.5 py-0.5 text-[10px] text-[#9db5aa]">
+          <CardTitle className="eyebrow flex items-center gap-2">
+            <Train className="h-3.5 w-3.5 text-clay" /> Corpus
+            <span className="num ml-auto rounded border border-hairline bg-white px-1.5 py-0.5 text-[10px] text-ink-3">
               {stats.words}w
             </span>
           </CardTitle>
@@ -52,22 +52,22 @@ export function TextLab() {
           <Textarea
             value={corpus}
             onChange={(e) => setCorpus(e.target.value)}
-            className="h-56 resize-none rounded-lg border-white/[0.07] bg-[#0b110f] font-mono text-xs leading-relaxed text-[#cfe5db] transition-colors duration-200 focus:border-[#45e0a0]/60"
+            className="h-56 resize-none rounded-lg border-hairline bg-white font-serif text-[14px] leading-relaxed text-ink transition-colors duration-150 focus:border-clay/60"
             placeholder="Paste any text — song lyrics, prose, your own writing…"
           />
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <div className="flex items-center gap-2">
               <span className="micro">Context</span>
-              <div className="flex overflow-hidden rounded-lg border border-white/[0.09]">
+              <div className="flex overflow-hidden rounded-md border border-hairline">
                 {[1, 2].map((o) => (
                   <button
                     key={o}
                     onClick={() => setOrder(o)}
                     aria-pressed={order === o}
-                    className={`px-3.5 py-2.5 font-mono text-[11px] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#45e0a0]/60 ${
+                    className={`px-3.5 py-2 text-[12px] font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-clay/60 ${
                       order === o
-                        ? "bg-[#45e0a0] text-[#07130e]"
-                        : "bg-[#141b1a] text-[#526a60] hover:text-[#9db5aa]"
+                        ? "bg-clay text-white"
+                        : "bg-white text-ink-3 hover:text-ink"
                     }`}
                   >
                     {o}-gram
@@ -76,7 +76,7 @@ export function TextLab() {
               </div>
             </div>
             <div className="flex min-w-40 flex-1 items-center gap-2">
-              <Thermometer className="h-3.5 w-3.5 text-[#526a60]" />
+              <Thermometer className="h-3.5 w-3.5 text-ink-3" />
               <Slider
                 value={[temperature]}
                 min={0.2}
@@ -85,7 +85,7 @@ export function TextLab() {
                 onValueChange={(v) => setTemperature(v[0])}
                 className="flex-1"
               />
-              <span className="num well rounded-md px-2 py-0.5 text-[11px] text-[#9db5aa]">
+              <span className="num well px-2 py-0.5 text-[11px] text-ink-2">
                 T={temperature.toFixed(1)}
               </span>
             </div>
@@ -93,43 +93,42 @@ export function TextLab() {
               size="sm"
               variant="outline"
               onClick={train}
-              className="h-9 gap-1.5 rounded-lg border-white/[0.09] bg-[#141b1a] font-mono text-[10px] uppercase tracking-[0.1em] text-[#9db5aa] duration-200 hover:border-[#45e0a0]/50 hover:bg-[#16211f] hover:text-[#45e0a0]"
+              className="h-9 gap-1.5 rounded-md border-hairline-strong bg-transparent px-3 text-[12.5px] font-medium text-ink-2 hover:bg-accent hover:text-ink"
             >
               <Train className="h-3 w-3" /> Train
             </Button>
           </div>
-          <p className="micro text-[9px] leading-relaxed normal-case tracking-normal text-[#526a60]">
+          <p className="micro text-[10px] leading-relaxed">
             {stats.contexts > 0 && (
               <>
-                Model online: <span className="num text-[#9db5aa]">{stats.contexts} contexts</span> ·
-                order-{order} word chain. Low T = safe & repetitive · high T = chaotic & creative.
+                Model online: <span className="num text-ink-2">{stats.contexts} contexts</span> ·
+                order-{order} word chain. Low T = safe &amp; repetitive · high T = chaotic &amp; creative.
               </>
             )}
           </p>
         </CardContent>
       </Card>
 
-      <Card className="flex flex-col gap-0 border-white/[0.07] bg-[#0e1413] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+      <Card className="flex flex-col gap-0 p-4">
         <CardHeader className="px-0 pb-3">
-          <CardTitle className="micro flex items-center gap-2">
-            <Sparkles className="h-3.5 w-3.5 text-[#45e0a0]" /> Generated text
+          <CardTitle className="eyebrow flex items-center gap-2">
+            <Sparkles className="h-3.5 w-3.5 text-clay" /> Generated text
           </CardTitle>
         </CardHeader>
         <CardContent className="flex flex-1 flex-col gap-3 px-0">
           <div
-            className={`relative flex-1 overflow-hidden rounded-xl p-4 transition-colors duration-200 ${
-              output ? "border border-white/[0.07] bg-[#0b110f]" : "border border-dashed border-white/[0.09] bg-[#0b110f]/60"
+            className={`relative flex-1 overflow-hidden rounded-lg p-4 transition-colors duration-150 ${
+              output ? "border border-hairline bg-white" : "border border-dashed border-hairline-strong bg-white/60"
             }`}
           >
-            <div className="pointer-events-none absolute -left-6 -top-6 h-24 w-24 rounded-full bg-[#45e0a0]/5 blur-2xl" />
             {output ? (
-              <p className="relative font-mono text-[13px] leading-relaxed text-[#cfe5db]">
+              <p className="font-serif text-[15px] leading-[1.75] text-ink">
                 {output}
               </p>
             ) : (
               <div className="relative flex h-full min-h-36 flex-col items-center justify-center gap-2.5 text-center">
-                <Sparkles className="h-5 w-5 text-[#526a60]" aria-hidden="true" />
-                <p className="micro normal-case tracking-normal">
+                <Sparkles className="h-5 w-5 text-ink-3" aria-hidden="true" />
+                <p className="micro max-w-64 leading-relaxed">
                   Train on a corpus, then conjure new sentences from pure probability.
                 </p>
               </div>
@@ -137,7 +136,7 @@ export function TextLab() {
           </div>
           <Button
             onClick={generate}
-            className="h-10 gap-2 rounded-lg bg-[#45e0a0] font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#07130e] shadow-[0_0_24px_rgba(69,224,160,0.25)] duration-200 hover:bg-[#6ae8bc] hover:shadow-[0_0_32px_rgba(69,224,160,0.4)]"
+            className="h-10 gap-2 rounded-md px-5 text-[13px] font-medium"
           >
             <Sparkles className="h-4 w-4" />
             Generate

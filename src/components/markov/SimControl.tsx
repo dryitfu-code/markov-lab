@@ -20,7 +20,7 @@ export function SimControl() {
   }, [running, speed, step]);
 
   return (
-    <Card className="gap-0 border-white/[0.07] bg-[#0e1413] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+    <Card className="gap-0 p-4">
       <CardContent className="flex flex-wrap items-center gap-x-4 gap-y-3 px-0">
         <span className="micro hidden sm:inline">Transport</span>
 
@@ -29,7 +29,7 @@ export function SimControl() {
             <Button
               size="sm"
               onClick={pause}
-              className="h-9 gap-1.5 rounded-lg bg-[#ffb224] font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1a1206] shadow-[0_0_20px_rgba(255,178,36,0.25)] duration-200 hover:bg-[#ffc24a]"
+              className="h-9 gap-1.5 rounded-md px-4 text-[13px] font-medium"
             >
               <Pause className="h-3.5 w-3.5" /> Pause
             </Button>
@@ -37,7 +37,7 @@ export function SimControl() {
             <Button
               size="sm"
               onClick={play}
-              className="h-9 gap-1.5 rounded-lg bg-[#45e0a0] font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#07130e] shadow-[0_0_20px_rgba(69,224,160,0.3)] duration-200 hover:bg-[#6ae8bc]"
+              className="h-9 gap-1.5 rounded-md px-4 text-[13px] font-medium"
             >
               <Play className="h-3.5 w-3.5" /> Run walk
             </Button>
@@ -46,16 +46,17 @@ export function SimControl() {
             size="sm"
             variant="outline"
             onClick={() => step(1)}
-            className="h-9 w-9 rounded-lg border-white/[0.09] bg-[#141b1a] p-0 text-[#9db5aa] duration-200 hover:border-[#45e0a0]/50 hover:bg-[#16211f] hover:text-[#45e0a0]"
+            className="h-9 w-9 rounded-md border-hairline-strong bg-transparent p-0 text-ink-2 hover:bg-accent hover:text-ink"
             aria-label="Step once"
             title="Step once"
-          >            <StepForward className="h-4 w-4" />
+          >
+            <StepForward className="h-4 w-4" />
           </Button>
           <Button
             size="sm"
             variant="outline"
             onClick={() => step(200)}
-            className="h-9 gap-1 rounded-lg border-white/[0.09] bg-[#141b1a] font-mono text-[11px] text-[#9db5aa] duration-200 hover:border-[#45e0a0]/50 hover:bg-[#16211f] hover:text-[#45e0a0]"
+            className="h-9 gap-1 rounded-md border-hairline-strong bg-transparent px-3 text-[13px] text-ink-2 hover:bg-accent hover:text-ink"
             title="Fast-forward 200 steps"
           >
             <Zap className="h-3.5 w-3.5" /> ×200
@@ -64,7 +65,7 @@ export function SimControl() {
             size="sm"
             variant="outline"
             onClick={reset}
-            className="h-9 w-9 rounded-lg border-white/[0.09] bg-[#141b1a] p-0 text-[#9db5aa] duration-200 hover:border-[#ff6b6b]/50 hover:bg-[#16211f] hover:text-[#ff6b6b]"
+            className="h-9 w-9 rounded-md border-hairline-strong bg-transparent p-0 text-ink-2 hover:border-destructive/40 hover:bg-accent hover:text-destructive"
             aria-label="Reset simulation"
             title="Reset simulation"
           >
@@ -72,17 +73,17 @@ export function SimControl() {
           </Button>
         </div>
 
-        <div className="h-6 w-px bg-white/[0.07]" aria-hidden="true" />
+        <div className="h-6 w-px bg-hairline" aria-hidden="true" />
 
         <Button
           size="sm"
           variant="outline"
           onClick={toggleSound}
           aria-pressed={soundOn}
-          className={`h-9 w-9 rounded-lg border bg-[#141b1a] p-0 transition-all duration-200 ${
+          className={`h-9 w-9 rounded-md border bg-transparent p-0 transition-colors duration-180 ${
             soundOn
-              ? "border-[#45e0a0]/60 bg-[rgba(69,224,160,0.1)] text-[#45e0a0] shadow-[0_0_16px_rgba(69,224,160,0.2)]"
-              : "border-white/[0.09] text-[#526a60] hover:border-[#45e0a0]/40 hover:text-[#45e0a0]"
+              ? "border-clay/60 bg-clay/[0.07] text-clay-dark hover:bg-clay/[0.12]"
+              : "border-hairline-strong text-ink-3 hover:border-clay/40 hover:text-clay-dark"
           }`}
           aria-label={soundOn ? "Mute chain sounds" : "Enable chain sounds"}
           title={soundOn ? "Mute chain sounds" : "Hear the walk — each state is a note"}
@@ -100,8 +101,8 @@ export function SimControl() {
             onValueChange={(v) => useMarkov.getState().setSpeed(v[0])}
             className="flex-1"
           />
-          <span className="num well rounded-md px-2 py-0.5 text-[11px] text-[#9db5aa]">
-            {speed.toFixed(1)}<span className="text-[#526a60]">/s</span>
+          <span className="num well px-2 py-0.5 text-[11px] text-ink-2">
+            {speed.toFixed(1)}<span className="text-ink-3">/s</span>
           </span>
         </div>
       </CardContent>

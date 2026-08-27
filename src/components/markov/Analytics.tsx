@@ -4,7 +4,6 @@ import { useMemo } from "react";
 import { useMarkov } from "@/lib/markov/store";
 import { distributionAfter, totalVariation } from "@/lib/markov/engine";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Activity, Sigma, Timer, Flame } from "lucide-react";
 import {
@@ -18,17 +17,18 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+/* muted editorial ramp — clay-anchored, warm, print-like */
 const LINE_COLORS = [
-  "#45e0a0",
-  "#ffb224",
-  "#f472b6",
-  "#4cc9f0",
-  "#a78bfa",
-  "#7ee081",
-  "#ff9e64",
-  "#64e0d8",
-  "#e0708a",
-  "#b8e064",
+  "#D97757", // clay
+  "#7A9271", // sage
+  "#667A94", // slate
+  "#B08A50", // ochre
+  "#9A7B8F", // mauve
+  "#8F8F87", // warm gray
+  "#C99A6C", // sand
+  "#5F7E70", // pine
+  "#8B7CA8", // iris
+  "#A65B3F", // rust
 ];
 
 export function StatsPanel() {
@@ -45,9 +45,9 @@ export function StatsPanel() {
   }, [matrix, stats.stationary, states]);
 
   return (
-    <Card className="h-full gap-0 border-white/[0.07] bg-[#0e1413] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+    <Card className="h-full gap-0 p-4">
       <CardHeader className="px-0 pb-3">
-        <CardTitle className="micro">Diagnostics</CardTitle>
+        <CardTitle className="eyebrow">Diagnostics</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3.5 px-0">
         {/* big readouts */}
@@ -56,19 +56,19 @@ export function StatsPanel() {
             <div className="micro flex items-center gap-1.5">
               <Sigma className="h-3 w-3" /> Entropy rate
             </div>
-            <div className="num mt-1.5 text-2xl leading-none text-[#45e0a0] [text-shadow:0_0_20px_rgba(69,224,160,0.4)]">
+            <div className="num mt-1.5 text-2xl font-medium leading-none text-clay-dark">
               {stats.entropyRate.toFixed(3)}
             </div>
-            <div className="micro mt-1 text-[9px] text-[#526a60]">bits / step</div>
+            <div className="micro mt-1 text-[10px]">bits / step</div>
           </div>
           <div className="well p-3">
             <div className="micro flex items-center gap-1.5">
               <Timer className="h-3 w-3" /> Mix time
             </div>
-            <div className="num mt-1.5 text-2xl leading-none text-[#4cc9f0] [text-shadow:0_0_20px_rgba(76,201,240,0.35)]">
+            <div className="num mt-1.5 text-2xl font-medium leading-none text-[#667A94]">
               {mixingSteps === null ? "∞" : mixingSteps}
             </div>
-            <div className="micro mt-1 text-[9px] text-[#526a60]">ε &lt; 0.05</div>
+            <div className="micro mt-1 text-[10px]">ε &lt; 0.05</div>
           </div>
         </div>
 
@@ -87,10 +87,10 @@ export function StatsPanel() {
           ].map((f, i) => (
             <span
               key={i}
-              className={`inline-flex items-center gap-1.5 rounded-md border px-2 py-1 font-mono text-[10px] uppercase tracking-[0.1em] ${
+              className={`inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-[11px] font-medium ${
                 f.ok
-                  ? "border-[#45e0a0]/30 bg-[rgba(69,224,160,0.07)] text-[#45e0a0]"
-                  : "border-[#ffb224]/30 bg-[rgba(255,178,36,0.07)] text-[#ffb224]"
+                  ? "border-[#7A9271]/35 bg-[#7A9271]/[0.08] text-[#5C7457]"
+                  : "border-[#D97757]/35 bg-[#D97757]/[0.07] text-[#A65B3F]"
               }`}
             >
               <span aria-hidden="true">{f.ok ? "✓" : "!"}</span> {f.label}
@@ -98,12 +98,12 @@ export function StatsPanel() {
           ))}
         </div>
 
-        <Separator className="bg-white/[0.06]" />
+        <Separator />
 
         {/* π vs empirical */}
         <div>
           <div className="micro mb-2.5">
-            π theory vs observed · <span className="num text-[#9db5aa]">{totalSteps}</span> steps
+            π theory vs observed · <span className="num text-ink-2">{totalSteps}</span> steps
           </div>
           <div className="space-y-2">
             {states.map((s, i) => {
@@ -113,12 +113,12 @@ export function StatsPanel() {
               return (
                 <div key={i}>
                   <div className="mb-1 flex items-center justify-between">
-                    <span className="truncate font-mono text-[11px] text-[#9db5aa]">{s}</span>
-                    <span className="num shrink-0 pl-2 text-[10px] text-[#526a60]">
-                      π {pi.toFixed(3)} · <span className="text-[#e7f2ec]">{(emp * 100).toFixed(1)}%</span>
+                    <span className="truncate text-[12px] text-ink-2">{s}</span>
+                    <span className="num shrink-0 pl-2 text-[10px] text-ink-3">
+                      π {pi.toFixed(3)} · <span className="text-ink">{(emp * 100).toFixed(1)}%</span>
                     </span>
                   </div>
-                  <div className="relative h-2.5 overflow-hidden rounded-sm border border-white/[0.05] bg-[#0b110f]">
+                  <div className="relative h-2.5 overflow-hidden rounded-sm border border-hairline bg-white">
                     {/* theory ghost */}
                     <div
                       className="absolute inset-y-0 left-0"
@@ -134,7 +134,6 @@ export function StatsPanel() {
                       style={{
                         width: `${Math.min((emp / maxPi) * 100, 100)}%`,
                         background: LINE_COLORS[i % 10],
-                        boxShadow: `0 0 8px ${LINE_COLORS[i % 10]}66`,
                       }}
                     />
                   </div>
@@ -142,15 +141,15 @@ export function StatsPanel() {
               );
             })}
           </div>
-          <p className="micro mt-2.5 text-[9px] leading-relaxed normal-case tracking-normal text-[#526a60]">
+          <p className="micro mt-2.5 text-[10px] leading-relaxed">
             Solid = observed frequency · ghost = theoretical limit. They converge as steps → ∞.
           </p>
         </div>
 
         {stats.absorbingStates.length > 0 && (
           <>
-            <Separator className="bg-white/[0.06]" />
-            <div className="flex items-start gap-2 rounded-lg border border-[#ffb224]/25 bg-[rgba(255,178,36,0.06)] p-2.5 font-mono text-[11px] leading-relaxed text-[#ffb224]/90">
+            <Separator />
+            <div className="flex items-start gap-2 rounded-md border border-clay/30 bg-clay/[0.05] p-2.5 text-[12px] leading-relaxed text-[#A65B3F]">
               <Flame className="mt-0.5 h-3.5 w-3.5 shrink-0" />
               <span>
                 Absorbing: {stats.absorbingStates.map((i) => states[i]).join(", ")} — the walker is
@@ -186,13 +185,13 @@ export function ConvergenceChart() {
   }, [matrix, states, startState, stats.stationary]);
 
   return (
-    <Card className="gap-0 border-white/[0.07] bg-[#0e1413] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+    <Card className="gap-0 p-4">
       <CardHeader className="px-0 pb-2">
         <CardTitle className="flex flex-wrap items-center gap-2">
-          <span className="micro flex items-center gap-1.5">
-            <Activity className="h-3 w-3 text-[#45e0a0]" /> Convergence to equilibrium
+          <span className="eyebrow flex items-center gap-1.5">
+            <Activity className="h-3 w-3 text-clay" /> Convergence to equilibrium
           </span>
-          <span className="font-mono text-[10px] normal-case tracking-normal text-[#526a60]">
+          <span className="text-[11px] text-ink-3">
             distribution after k steps from “{states[startState]}”
           </span>
         </CardTitle>
@@ -200,41 +199,41 @@ export function ConvergenceChart() {
       <CardContent className="h-[240px] px-0">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 5, right: 10, bottom: 0, left: -22 }}>
-            <CartesianGrid stroke="rgba(255,255,255,0.05)" strokeDasharray="2 6" />
+            <CartesianGrid stroke="#E3DFD3" strokeDasharray="2 6" />
             <XAxis
               dataKey="step"
-              tick={{ fill: "#526a60", fontSize: 10, fontFamily: "var(--font-geist-mono)" }}
-              stroke="rgba(255,255,255,0.12)"
+              tick={{ fill: "#8F8F87", fontSize: 10, fontFamily: "var(--font-geist-mono)" }}
+              stroke="#C9C4B4"
               label={{
                 value: "steps",
-                fill: "#526a60",
+                fill: "#8F8F87",
                 fontSize: 10,
                 position: "insideBottomRight",
                 offset: -2,
               }}
             />
             <YAxis
-              tick={{ fill: "#526a60", fontSize: 10, fontFamily: "var(--font-geist-mono)" }}
-              stroke="rgba(255,255,255,0.12)"
+              tick={{ fill: "#8F8F87", fontSize: 10, fontFamily: "var(--font-geist-mono)" }}
+              stroke="#C9C4B4"
               domain={[0, 1]}
             />
             <Tooltip
-              cursor={{ stroke: "rgba(255,255,255,0.14)", strokeDasharray: "2 4" }}
+              cursor={{ stroke: "#C9C4B4", strokeDasharray: "2 4" }}
               contentStyle={{
-                background: "#0b110f",
-                border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: 10,
+                background: "#FFFFFF",
+                border: "1px solid #DDD9CC",
+                borderRadius: 8,
                 fontSize: 11,
                 fontFamily: "var(--font-geist-mono)",
-                color: "#cfe5db",
-                boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+                color: "#1F1E1D",
+                boxShadow: "0 4px 16px rgba(25,25,25,0.08)",
               }}
-              labelStyle={{ color: "#9db5aa" }}
-              itemStyle={{ color: "#cfe5db" }}
+              labelStyle={{ color: "#6B6B64" }}
+              itemStyle={{ color: "#3D3D3A" }}
               labelFormatter={(l) => `after ${l} steps`}
             />
             <Legend
-              wrapperStyle={{ fontSize: 10, fontFamily: "var(--font-geist-mono)", color: "#9db5aa" }}
+              wrapperStyle={{ fontSize: 10, fontFamily: "var(--font-geist-mono)", color: "#6B6B64" }}
             />
             {states.map((s, i) => (
               <Line
@@ -253,7 +252,7 @@ export function ConvergenceChart() {
                 type="monotone"
                 dataKey="tvd"
                 name="dist. to π"
-                stroke="#ff6b6b"
+                stroke="#BD5D3A"
                 strokeWidth={1.5}
                 strokeDasharray="5 4"
                 dot={false}
